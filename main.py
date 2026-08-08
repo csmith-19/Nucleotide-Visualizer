@@ -26,8 +26,8 @@ if __name__ == "__main__":
     seq_type = ""
     definition = "Unknown Sequence"
 
+    origin = False
     with open("sequence.gb", "r") as file:
-        origin = False
         for line in file:
             if "Error:" in line:
                 print("Invalid Accession Number")
@@ -56,7 +56,10 @@ if __name__ == "__main__":
                             new_line += ch
                 sequence += new_line
 
-    if not seq_type == "":
+    if not origin:
+        print(f"No sequence information found for {definition}")
+
+    if origin and not seq_type == "":
         bases = ["Adenine", "Thymine", "Uracil", "Cytosine", "Guanine"]
         counts = [0, 0, 0, 0]
 
