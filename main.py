@@ -22,16 +22,20 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("Could not find email")
 
+    seq_type = ""
+
     with open("sequence.gb", "r") as file:
         origin = False
         for line in file:
+            if "Error:" in line:
+                print("Invalid Accession Number")
+                break
             if "/mol_type=" in line:
                 if "DNA" in line:
                     seq_type = "DNA"
                 elif "RNA" in line:
                     seq_type = "RNA"
                 else:
-                    seq_type = ""
                     print("Unknown Sequence Type")
                     break
 
@@ -47,8 +51,6 @@ if __name__ == "__main__":
                         if ch == "a" or ch == "t" or ch == "u" or ch == "c" or ch == "g":
                             new_line += ch
                 sequence += new_line
-
-
 
     if not seq_type == "":
         bases = ["Adenine", "Thymine", "Uracil", "Cytosine", "Guanine"]
