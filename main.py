@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    #Accession for Drosophila melanogaster (clone 63B12) is AL021106
+    #Accession for Drosophila melanogaster (clone 63B12) is AL021106.1
     #Accession for Caenorhabditis elegans (acr-16) is AY523511.1
+    #Accession for Escherichia coli (16s rRNA) is NR_024570.1
     sequence = ""
     accession_number = input("Please enter the accession number from GenBank: ")
 
@@ -23,6 +24,7 @@ if __name__ == "__main__":
         print("Could not find email")
 
     seq_type = ""
+    definition = "Unknown Sequence"
 
     with open("sequence.gb", "r") as file:
         origin = False
@@ -30,6 +32,8 @@ if __name__ == "__main__":
             if "Error:" in line:
                 print("Invalid Accession Number")
                 break
+            if "DEFINITION" in line:
+                definition = line.strip().split("  ")[1]
             if "/mol_type=" in line:
                 if "DNA" in line:
                     seq_type = "DNA"
@@ -75,5 +79,6 @@ if __name__ == "__main__":
         bar_colors = ["crimson", "lime", "gold", "turquoise"]
         plt.bar(bases, counts, label=bases, color=bar_colors)
         plt.ylabel("Abundance")
-        plt.title("Nucleotide Abundance")
+        plt.xlabel(f"Accession: {accession_number}")
+        plt.title(f"Nucleotide Abundance in {definition}", wrap=True, fontsize=14)
         plt.show()
